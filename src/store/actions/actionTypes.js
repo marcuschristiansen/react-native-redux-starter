@@ -1,0 +1,3 @@
+export const ADD_EXAMPLE = 'ADD_EXAMPLE';
+export const DELETE_EXAMPLE = 'DELETE_EXAMPLE';
+export const SELECT_EXAMPLE = 'SELECT_EXAMPLE';

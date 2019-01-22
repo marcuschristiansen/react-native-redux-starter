@@ -8,6 +8,9 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
+import { connect } from 'react-redux';
+
+import { addExample, deleteExample, selectExample } from './src/store/actions/index';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -17,13 +20,28 @@ const instructions = Platform.select({
 });
 
 type Props = {};
-export default class App extends Component<Props> {
+class App extends Component<Props> {
+
+  exampleAddHander = example => {
+    this.props.onAddExample(example);
+  }
+
+  exampleDeleteHandler = () => {
+    this.props.onDeleteExample();
+  }
+
+  exampleSelectHandler = key => {
+    this.props.onSelectExample(key);
+  }
+
+  exampleDelete
+
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
+      <View style={ styles.container }>
+        <Text style={ styles.welcome }>Welcome to React Native!</Text>
+        <Text style={ styles.instructions }>{ this.props.selectedExample }</Text>
+        <Text style={ styles.instructions }>{instructions}</Text>
       </View>
     );
   }
@@ -47,3 +65,20 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
 });
+
+const mapStateToProps = state => {
+  return {
+    examples: state.examples.examples,
+    selectedExample: state.examples.selectedExample
+  };
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onAddExample: (example) => dispatch(addExample(example)),
+    onDeleteExample: () => dispatch(deleteExample()),
+    onSelectExample: (key) => dispatch(selectExample(key))
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
