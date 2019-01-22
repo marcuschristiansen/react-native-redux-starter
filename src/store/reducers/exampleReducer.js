@@ -2,7 +2,7 @@ import { ADD_EXAMPLE, DELETE_EXAMPLE, SELECT_EXAMPLE } from '../actions/actionTy
 
 const initialState = {
     examples: [],
-    selectedExample: null
+    selectedExample: 'Test String'
 };
 
 const reducer = (state = initialState, action) => {
