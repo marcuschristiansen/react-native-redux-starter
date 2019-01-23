@@ -6,6 +6,7 @@ class AuthScreen extends Component {
         return (
             <View style={styles.container}>
                 <Text>AUTH SCREEN</Text>
+                <Text>{ this.props.selectedExample }</Text>
             </View>
         );
     }

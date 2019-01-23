@@ -1,29 +1,29 @@
 /** @format */
-// import React from 'react';
-// // import { AppRegistry } from 'react-native';
-// import { Navigation } from "react-native-navigation";
-// import { Provider } from 'react-redux';
+import React from 'react';
+import { Navigation } from "react-native-navigation";
+import { Provider } from 'react-redux';
+import configureStore from './src/store/configureStore';
+
 import App from './App';
-// import configureStore from './src/store/configureStore';
-// import { name as appName } from './app.json';
 
-// const store = configureStore();
+const store = configureStore();
 
-// const RNRedux = () => (
-//     <Provider store={ store }>
-//         <App />
-//     </Provider>
-// );
+const RNRedux = () => (
+    <Provider store={ store }>
+        <App />
+    </Provider>
+);
 
-// AppRegistry.registerComponent(appName, () => RNRedux);
-// Navigation.registerComponent(`navigation.playground.WelcomeScreen`, () => RNRedux);
+// Register screens
+Navigation.registerComponent("goingout.AuthScreen", () => RNRedux);
 
-// Navigation.events().registerAppLaunchedListener(() => {
-//   Navigation.setRoot({
-//     root: {
-//       component: {
-//         name: "navigation.playground.WelcomeScreen"
-//       }
-//     }
-//   });
-// });
+Navigation.events().registerAppLaunchedListener(() => {
+  Navigation.setRoot({
+    root: {
+      component: {
+        name: 'goingout.AuthScreen',
+        title: "Login"
+      }
+    }
+  });
+});

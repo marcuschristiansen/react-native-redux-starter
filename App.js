@@ -1,25 +1,76 @@
-import { Navigation } from 'react-native-navigation';
+import React, { Component } from 'react';
+import { Platform, StyleSheet, Text, View } from 'react-native';
+import { connect } from 'react-redux';
 
 import AuthScreen from './src/screens/Auth/Auth';
 
-// Register screens
-Navigation.registerComponent("goingout.AuthScreen", () => AuthScreen);
+import { addExample, deleteExample, selectExample } from './src/store/actions/index';
 
-// Start App
-// Navigation.startSingleScreenApp({
-//   screen: {
-//     screen: "goingout.AuthScreen",
-    
-//   } 
-// });
-
-Navigation.events().registerAppLaunchedListener(() => {
-  Navigation.setRoot({
-    root: {
-      component: {
-        name: 'goingout.AuthScreen',
-        title: "Login"
-      }
-    }
-  });
+const instructions = Platform.select({
+  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
+  android:
+    'Double tap R on your keyboard to reload,\n' +
+    'Shake or press menu button for dev menu',
 });
+
+type Props = {};
+class App extends Component<Props> {
+
+  exampleAddHander = example => {
+    this.props.onAddExample(example);
+  }
+
+  exampleDeleteHandler = () => {
+    this.props.onDeleteExample();
+  }
+
+  exampleSelectHandler = key => {
+    this.props.onSelectExample(key);
+  }
+
+  render() {
+    return (
+      <View style={ styles.container }>
+        <Text style={ styles.welcome }>Welcome to React Native!</Text>
+        <Text style={ styles.instructions }>{ this.props.selectedExample }</Text>
+        <Text style={ styles.instructions }>{instructions}</Text>
+      </View>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
+  welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+  },
+  instructions: {
+    textAlign: 'center',
+    color: '#333333',
+    marginBottom: 5,
+  },
+});
+
+const mapStateToProps = state => {
+  return {
+    examples: state.examples.examples,
+    selectedExample: state.examples.selectedExample
+  };
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onAddExample: (example) => dispatch(addExample(example)),
+    onDeleteExample: () => dispatch(deleteExample()),
+    onSelectExample: (key) => dispatch(selectExample(key))
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
