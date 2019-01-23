@@ -34,6 +34,7 @@ class App extends Component<Props> {
         <Text style={ styles.welcome }>Welcome to React Native!</Text>
         <Text style={ styles.instructions }>{ this.props.selectedExample }</Text>
         <Text style={ styles.instructions }>{instructions}</Text>
+        <AuthScreen />
       </View>
     );
   }
