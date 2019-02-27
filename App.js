@@ -1,77 +1,45 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
-import { connect } from 'react-redux';
+import { Navigation } from "react-native-navigation";
+import { Provider } from 'react-redux';
+import configureStore from './src/store/configureStore';
 
-import AuthScreen from './src/screens/Auth/Auth';
+import WelcomeScreen from './src/screens/Auth/Welcome';
+import SignupScreen from './src/screens/Auth/Signup';
+import SigninScreen from './src/screens/Auth/Signin';
+import PasswordRecoveryScreen from './src/screens/Auth/PasswordRecovery';
 
-import { addExample, deleteExample, selectExample } from './src/store/actions/index';
+import ListScreen from './src/screens/List/List';
+import ProfileScreen from './src/screens/Profile/Profile';
+import SideDrawerScreen from './src/screens/SideDrawer/SideDrawer';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
+const store = configureStore();
+
+// Register screens
+Navigation.registerComponentWithRedux("goingout.WelcomeScreen", () => WelcomeScreen, Provider, store);
+Navigation.registerComponentWithRedux("goingout.SignupScreen", () => SignupScreen, Provider, store);
+Navigation.registerComponentWithRedux("goingout.SigninScreen", () => SigninScreen, Provider, store);
+Navigation.registerComponentWithRedux("goingout.PasswordRecoveryScreen", () => PasswordRecoveryScreen, Provider, store);
+
+Navigation.registerComponentWithRedux("goingout.ListScreen", () => ListScreen, Provider, store);
+Navigation.registerComponentWithRedux("goingout.ProfileScreen", () => ProfileScreen, Provider, store);
+
+Navigation.registerComponentWithRedux("goingout.SideDrawerScreen", () => SideDrawerScreen, Provider, store);
+
+
+Navigation.events().registerAppLaunchedListener(() => {
+  Navigation.setRoot({
+    root: {
+      stack: {
+        id: 'AppStack',
+        children: [
+          {
+            component: {
+              name: 'goingout.WelcomeScreen',
+              title: 'Welcome'
+            }
+          }
+        ]
+      }
+    }
+  });
 });
-
-type Props = {};
-class App extends Component<Props> {
-
-  exampleAddHander = example => {
-    this.props.onAddExample(example);
-  }
-
-  exampleDeleteHandler = () => {
-    this.props.onDeleteExample();
-  }
-
-  exampleSelectHandler = key => {
-    this.props.onSelectExample(key);
-  }
-
-  render() {
-    return (
-      <View style={ styles.container }>
-        <Text style={ styles.welcome }>Welcome to React Native!</Text>
-        <Text style={ styles.instructions }>{ this.props.selectedExample }</Text>
-        <Text style={ styles.instructions }>{instructions}</Text>
-        <AuthScreen />
-      </View>
-    );
-  }
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
-
-const mapStateToProps = state => {
-  return {
-    examples: state.examples.examples,
-    selectedExample: state.examples.selectedExample
-  };
-}
-
-const mapDispatchToProps = dispatch => {
-  return {
-    onAddExample: (example) => dispatch(addExample(example)),
-    onDeleteExample: () => dispatch(deleteExample()),
-    onSelectExample: (key) => dispatch(selectExample(key))
-  }
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);

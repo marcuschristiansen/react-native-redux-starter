@@ -1,6 +1,6 @@
 /** @format */
 import React from 'react';
-import { Navigation } from "react-native-navigation";
+import { AppRegistry } from 'react-native';
 import { Provider } from 'react-redux';
 import configureStore from './src/store/configureStore';
 
@@ -14,16 +14,4 @@ const RNRedux = () => (
     </Provider>
 );
 
-// Register screens
-Navigation.registerComponent("goingout.AuthScreen", () => RNRedux);
-
-Navigation.events().registerAppLaunchedListener(() => {
-  Navigation.setRoot({
-    root: {
-      component: {
-        name: 'goingout.AuthScreen',
-        title: "Login"
-      }
-    }
-  });
-});
+AppRegistry.registerComponent('goingout', () => RNRedux);

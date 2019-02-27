@@ -1,4 +1,3 @@
-
 import { ADD_EXAMPLE, DELETE_EXAMPLE, SELECT_EXAMPLE } from './actionTypes';
 
 export const addExample = (val) => {
